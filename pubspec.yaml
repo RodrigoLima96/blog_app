@@ -9,8 +9,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_modular: ^6.3.2
-
-  cupertino_icons: ^1.0.6
+  dartz: ^0.10.1
+  firebase_core: ^2.28.0
 
 dev_dependencies:
   flutter_test:
@@ -18,5 +18,4 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter:
-
   uses-material-design: true
