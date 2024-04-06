@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../auth.dart';
 import 'widgets.dart';
 
 class SignUpPageBody extends StatefulWidget {
@@ -28,6 +29,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
 
   @override
   Widget build(BuildContext context) {
+    final authStore = Modular.get<AuthStore>();
     return Center(
       child: SingleChildScrollView(
         child: Form(
@@ -51,7 +53,18 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
                     controller: passwordController,
                     obscureText: true),
                 const SizedBox(height: 40),
-                const AuthButtonWidget(buttonText: 'Sign Up'),
+                AuthButtonWidget(
+                  buttonText: 'Sign Up',
+                  press: () async {
+                    if (formKey.currentState!.validate()) {
+                      await authStore.signUpUser(
+                        name: nameController.text,
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                      );
+                    }
+                  },
+                ),
                 const SizedBox(height: 60),
                 PageChangeText(
                   isLogin: false,

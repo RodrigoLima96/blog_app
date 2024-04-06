@@ -48,8 +48,9 @@ class _LoginPageBodyState extends State<LoginPageBody> {
                   obscureText: true,
                 ),
                 const SizedBox(height: 40),
-                const AuthButtonWidget(
+                AuthButtonWidget(
                   buttonText: 'Sign In',
+                  press: () {},
                 ),
                 const SizedBox(height: 60),
                 PageChangeText(
