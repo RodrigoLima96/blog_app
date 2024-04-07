@@ -10,7 +10,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   const AuthRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, String>> loginWithEmailAndPassword({
+  Future<Either<Failure, UserEntity>> loginWithEmailAndPassword({
     required String email,
     required String password,
   }) {
@@ -18,19 +18,19 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailAndPassword({
+  Future<Either<Failure, UserEntity>> signUpWithEmailAndPassword({
     required String name,
     required String email,
     required String password,
   }) async {
     try {
-      final userId = await remoteDataSource.signUpWithEmailAndPassword(
+      final user = await remoteDataSource.signUpWithEmailAndPassword(
         name: name,
         email: email,
         password: password,
       );
 
-      return right(userId);
+      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }

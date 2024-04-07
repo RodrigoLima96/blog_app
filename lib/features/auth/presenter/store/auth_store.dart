@@ -12,7 +12,7 @@ abstract class _AuthStoreBase with Store {
   final SignUpUserUsecase signUpUserUsecase;
 
   @observable
-  String? userId;
+  UserEntity? user;
 
   _AuthStoreBase({
     required this.signUpUserUsecase,
@@ -33,10 +33,8 @@ abstract class _AuthStoreBase with Store {
         throw Error();
       },
       (userUid) {
-        userId = userUid;
+        user = user;
       },
     );
-    // print(userId);
-    // print('userId');
   }
 }

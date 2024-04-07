@@ -1,14 +1,14 @@
-import '../domain.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/core.dart';
+import '../domain.dart';
 
-class SignUpUserUsecase implements Usecase<String, UserSignUpParams> {
+class SignUpUserUsecase implements Usecase<UserEntity, UserSignUpParams> {
   final IAuthRepository authRepository;
 
   SignUpUserUsecase({required this.authRepository});
   @override
-  Future<Either<Failure, String>> call(UserSignUpParams params) async {
+  Future<Either<Failure, UserEntity>> call(UserSignUpParams params) async {
     return await authRepository.signUpWithEmailAndPassword(
       name: params.name,
       email: params.email,
