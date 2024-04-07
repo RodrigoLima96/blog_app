@@ -24,6 +24,22 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
+  late final _$authStateAtom =
+      Atom(name: '_AuthStoreBase.authState', context: context);
+
+  @override
+  AuthState get authState {
+    _$authStateAtom.reportRead();
+    return super.authState;
+  }
+
+  @override
+  set authState(AuthState value) {
+    _$authStateAtom.reportWrite(value, super.authState, () {
+      super.authState = value;
+    });
+  }
+
   late final _$signUpUserAsyncAction =
       AsyncAction('_AuthStoreBase.signUpUser', context: context);
 
@@ -34,10 +50,30 @@ mixin _$AuthStore on _AuthStoreBase, Store {
         () => super.signUpUser(name: name, email: email, password: password));
   }
 
+  late final _$loginUserAsyncAction =
+      AsyncAction('_AuthStoreBase.loginUser', context: context);
+
+  @override
+  Future<void> loginUser({required String email, required String password}) {
+    return _$loginUserAsyncAction
+        .run(() => super.loginUser(email: email, password: password));
+  }
+
+  late final _$_performAuthActionAsyncAction =
+      AsyncAction('_AuthStoreBase._performAuthAction', context: context);
+
+  @override
+  Future<void> _performAuthAction(
+      Future<Either<Failure, UserEntity>> Function() action) {
+    return _$_performAuthActionAsyncAction
+        .run(() => super._performAuthAction(action));
+  }
+
   @override
   String toString() {
     return '''
-user: ${user}
+user: ${user},
+authState: ${authState}
     ''';
   }
 }
