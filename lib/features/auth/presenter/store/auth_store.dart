@@ -43,6 +43,18 @@ abstract class _AuthStoreBase with Store {
   }
 
   @action
+  Future<void> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    _performAuthAction(
+      () => loginUserUsecase(
+        UserLoginParams(email: email, password: password),
+      ),
+    );
+  }
+
+  @action
   Future<void> _performAuthAction(
       Future<Either<Failure, UserEntity>> Function() action) async {
     authState = AuthState.loading;

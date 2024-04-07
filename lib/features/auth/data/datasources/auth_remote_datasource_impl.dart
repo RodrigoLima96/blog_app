@@ -12,8 +12,25 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
 
   @override
   Future<UserModel> loginWithEmailAndPassword(
-      {required String email, required String password}) {
-    throw UnimplementedError();
+      {required String email, required String password}) async {
+    try {
+      final response = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      if (response.user == null) {
+        throw ServerException(message: 'User is null!');
+      }
+
+      UserModel userModel = UserModel.fromData(
+        id: response.user!.uid,
+        name: response.user!.displayName!,
+        email: response.user!.email!,
+      );
+
+      return userModel;
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override
@@ -23,14 +40,18 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      final response = await auth.createUserWithEmailAndPassword(email: email, password: password);
+      final response = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
 
       if (response.user == null) {
         throw ServerException(message: 'User is null!');
       }
-      await createUserOnDatabase(uid: response.user!.uid, name: name, email: email);
+      await response.user!.updateDisplayName(name);
+      await createUserOnDatabase(
+          uid: response.user!.uid, name: name, email: email);
 
-      UserModel userModel = UserModel.fromData(id: response.user!.uid, name: name, email: email);
+      UserModel userModel =
+          UserModel.fromData(id: response.user!.uid, name: name, email: email);
 
       return userModel;
     } catch (e) {
