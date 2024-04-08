@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    return const Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Modular.to.navigate('/auth/login');
-          },
-          child: const Text('Login'),
-        ),
-      ),
+        child: Text('Home Page')),
     );
   }
 }

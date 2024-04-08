@@ -13,6 +13,8 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
   @override
   Future<UserModel> loginWithEmailAndPassword(
       {required String email, required String password}) async {
+    await getCurrentUserData();
+
     try {
       final response = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -26,7 +28,6 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
         name: response.user!.displayName!,
         email: response.user!.email!,
       );
-
       return userModel;
     } catch (e) {
       throw ServerException(message: e.toString());
@@ -70,6 +71,23 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
         "name": name,
         "email": email,
       });
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel?> getCurrentUserData() async {
+    try {
+      if (auth.currentUser != null) {
+        UserModel userModel = UserModel.fromData(
+          id: auth.currentUser!.uid,
+          name: auth.currentUser!.displayName!,
+          email: auth.currentUser!.email!,
+        );
+        return userModel;
+      }
+      return null;
     } catch (e) {
       throw ServerException(message: e.toString());
     }

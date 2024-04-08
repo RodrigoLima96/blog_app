@@ -15,9 +15,8 @@ enum AuthState { notStarted, loading, failure, success }
 abstract class _AuthStoreBase with Store {
   final SignUpUserUsecase signUpUserUsecase;
   final LoginUserUsecase loginUserUsecase;
-
-  @observable
-  UserEntity? user;
+  final CurrentUserUsecase currentUserUsecase;
+  final AppUserStore appUserStore;
 
   @observable
   AuthState authState = AuthState.notStarted;
@@ -27,6 +26,8 @@ abstract class _AuthStoreBase with Store {
   _AuthStoreBase({
     required this.signUpUserUsecase,
     required this.loginUserUsecase,
+    required this.currentUserUsecase,
+    required this.appUserStore,
   });
 
   @action
@@ -64,9 +65,22 @@ abstract class _AuthStoreBase with Store {
         authFailureMessage = failure.message;
         authState = AuthState.failure;
       },
-      (userResponse) {
-        user = user;
+      (user) {
+        appUserStore.updateUser(userEntity: user);
         authState = AuthState.success;
+      },
+    );
+  }
+
+  @action
+  Future<void> checkCurrentUserLoggedIn() async {
+    final result = await currentUserUsecase(NoParams());
+    result.fold(
+      (failure) {
+        authFailureMessage = failure.message;
+      },
+      (user) {
+        appUserStore.updateUser(userEntity: user);
       },
     );
   }
