@@ -36,7 +36,7 @@ abstract class _AuthStoreBase with Store {
     required String email,
     required String password,
   }) async {
-    _performAuthAction(
+    await _performAuthAction(
       () => signUpUserUsecase(
         UserSignUpParams(name: name, email: email, password: password),
       ),
@@ -48,10 +48,17 @@ abstract class _AuthStoreBase with Store {
     required String email,
     required String password,
   }) async {
-    _performAuthAction(
+    await _performAuthAction(
       () => loginUserUsecase(
         UserLoginParams(email: email, password: password),
       ),
+    );
+  }
+
+  @action
+  Future<void> checkCurrentUserLoggedIn() async {
+    await _performAuthAction(
+      () => currentUserUsecase(NoParams()),
     );
   }
 
@@ -68,19 +75,6 @@ abstract class _AuthStoreBase with Store {
       (user) {
         appUserStore.updateUser(userEntity: user);
         authState = AuthState.success;
-      },
-    );
-  }
-
-  @action
-  Future<void> checkCurrentUserLoggedIn() async {
-    final result = await currentUserUsecase(NoParams());
-    result.fold(
-      (failure) {
-        authFailureMessage = failure.message;
-      },
-      (user) {
-        appUserStore.updateUser(userEntity: user);
       },
     );
   }

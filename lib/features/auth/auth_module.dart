@@ -15,12 +15,10 @@ class AuthModule extends Module {
     i.add(() => CurrentUserUsecase(authRepository: i()));
 
     // repositories
-    i.addLazySingleton<IAuthRepository>(
-        () => AuthRepositoryImpl(remoteDataSource: i()));
+    i.addLazySingleton<IAuthRepository>(() => AuthRepositoryImpl(remoteDataSource: i()));
 
     // datasources
-    i.addLazySingleton<IAuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(auth: i(), firestore: i()));
+    i.addLazySingleton<IAuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(auth: i(), firestore: i()));
 
     // firebase
     i.addLazySingleton(() => FirebaseAuth.instanceFor(app: Firebase.app()));

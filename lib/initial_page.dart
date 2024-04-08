@@ -34,7 +34,7 @@ class _InitialPageState extends State<InitialPage> {
         if (appUserStore.user != null) {
           return const HomePage();
         } else {
-          return const SignUpPage();
+          return const LoginPage();
         }
       },
     );
