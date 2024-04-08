@@ -2,7 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'core/core.dart';
 import 'features/auth/auth.dart';
-import 'home_page.dart';
+import 'features/blogs/blogs.dart';
 
 class AppModule extends Module {
   @override
@@ -10,7 +10,8 @@ class AppModule extends Module {
 
   @override
   void routes(r) {
-    r.child('/', child: (context) => const HomePage());
+    r.child('/', child: (context) => const BlogsPage());
     r.module('/auth/', module: AuthModule());
+    r.module('/blogs/', module: BlogsModule());
   }
 }

@@ -43,7 +43,7 @@ class _SignUpPageBodyState extends State<SignUpPageBody> {
 
           reaction((_) => authStore.authState, (AuthState state) {
             if (state == AuthState.success) {
-              Modular.to.navigate('/');
+              Modular.to.navigate('/blogs/');
             }
           });
 

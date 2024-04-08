@@ -40,10 +40,9 @@ class _LoginPageBodyState extends State<LoginPageBody> {
           }
           reaction((_) => authStore.authState, (AuthState state) {
             if (state == AuthState.success) {
-              Modular.to.navigate('/');
+              Modular.to.navigate('/blogs/');
             }
           });
-
           reaction((_) => authStore.authState, (AuthState state) {
             if (state == AuthState.failure) {
               showCustomSnackbar(context, authStore.authFailureMessage);

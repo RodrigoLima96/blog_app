@@ -4,7 +4,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'core/core.dart';
 import 'features/auth/auth.dart';
-import 'home_page.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});
@@ -25,16 +24,20 @@ class _InitialPageState extends State<InitialPage> {
 
   void _checkCurrentUser() async {
     await authStore.checkCurrentUserLoggedIn();
+
+    if (appUserStore.user != null) {
+      Modular.to.navigate('/blogs/');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        if (appUserStore.user != null) {
-          return const HomePage();
-        } else {
+        if (appUserStore.user == null) {
           return const LoginPage();
+        } else {
+          return const SizedBox();
         }
       },
     );

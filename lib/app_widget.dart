@@ -10,7 +10,6 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Modular.setInitialRoute('/auth/initial');
-
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
