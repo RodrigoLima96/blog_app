@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AddNewBlogPage extends StatefulWidget {
+import '../widgets/widgets.dart';
+
+class AddNewBlogPage extends StatelessWidget {
   const AddNewBlogPage({super.key});
 
-  @override
-  State<AddNewBlogPage> createState() => _AddNewBlogPageState();
-}
-
-class _AddNewBlogPageState extends State<AddNewBlogPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +13,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.done_rounded))
         ],
       ),
+      body: const AddNewBlogPageBody(),
     );
   }
 }
