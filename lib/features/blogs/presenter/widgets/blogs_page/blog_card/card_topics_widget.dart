@@ -15,7 +15,7 @@ class CardTopicsWidget extends StatelessWidget {
       child: Row(
         children: topics
             .map((e) => Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.only(right: 10, bottom: 5),
                   child: Chip(
                     label: Text(e),
                   ),
