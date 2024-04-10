@@ -25,6 +25,22 @@ mixin _$BlogStore on _BlogStoreBase, Store {
     });
   }
 
+  late final _$getAllBlogsStateAtom =
+      Atom(name: '_BlogStoreBase.getAllBlogsState', context: context);
+
+  @override
+  BlogStoreState get getAllBlogsState {
+    _$getAllBlogsStateAtom.reportRead();
+    return super.getAllBlogsState;
+  }
+
+  @override
+  set getAllBlogsState(BlogStoreState value) {
+    _$getAllBlogsStateAtom.reportWrite(value, super.getAllBlogsState, () {
+      super.getAllBlogsState = value;
+    });
+  }
+
   late final _$imageAtom = Atom(name: '_BlogStoreBase.image', context: context);
 
   @override
@@ -44,13 +60,13 @@ mixin _$BlogStore on _BlogStoreBase, Store {
       Atom(name: '_BlogStoreBase.blogList', context: context);
 
   @override
-  List<BlogEntity> get blogList {
+  ObservableList<BlogEntity> get blogList {
     _$blogListAtom.reportRead();
     return super.blogList;
   }
 
   @override
-  set blogList(List<BlogEntity> value) {
+  set blogList(ObservableList<BlogEntity> value) {
     _$blogListAtom.reportWrite(value, super.blogList, () {
       super.blogList = value;
     });
@@ -107,6 +123,7 @@ mixin _$BlogStore on _BlogStoreBase, Store {
   String toString() {
     return '''
 uploadBlogState: ${uploadBlogState},
+getAllBlogsState: ${getAllBlogsState},
 image: ${image},
 blogList: ${blogList},
 selectedTopics: ${selectedTopics}

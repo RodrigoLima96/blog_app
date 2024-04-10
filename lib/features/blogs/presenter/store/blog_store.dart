@@ -27,7 +27,7 @@ abstract class _BlogStoreBase with Store {
   File? image;
 
   @observable
-  List<BlogEntity> blogList = [];
+  ObservableList<BlogEntity> blogList = ObservableList<BlogEntity>();
 
   @observable
   List<String> selectedTopics = [];
@@ -49,11 +49,11 @@ abstract class _BlogStoreBase with Store {
     final result = await _getAllBlogsUsecase(NoParams());
     result.fold(
       (failure) {
-        getAllBlogsState = BlogStoreState.failure;
         getAllBlogsFailureMessage = failure.message;
+        getAllBlogsState = BlogStoreState.failure;
       },
       (list) {
-        blogList = List.from(list);
+        blogList.addAll(list);
         getAllBlogsState = BlogStoreState.success;
       },
     );
@@ -83,7 +83,7 @@ abstract class _BlogStoreBase with Store {
         uploadBlogState = BlogStoreState.failure;
       },
       (blog) {
-        // print(blog);
+        blogList.add(blog);
         image = null;
         selectedTopics = [];
         uploadBlogState = BlogStoreState.success;
