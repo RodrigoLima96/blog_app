@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/core.dart';
+import '../../blogs.dart';
 
 class BlogTopicsWidget extends StatefulWidget {
+  final BlogStore blogStore;
+
   const BlogTopicsWidget({
     super.key,
+    required this.blogStore,
   });
 
   @override
@@ -12,11 +16,8 @@ class BlogTopicsWidget extends StatefulWidget {
 }
 
 class _BlogTopicsWidgetState extends State<BlogTopicsWidget> {
-    List<String> selectedTopics = [];
-
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -25,21 +26,19 @@ class _BlogTopicsWidgetState extends State<BlogTopicsWidget> {
                   padding: const EdgeInsets.all(5.0),
                   child: GestureDetector(
                     onTap: () {
-                      if (selectedTopics.contains(e)) {
-                        selectedTopics.remove(e);
-                      } else {
-                        selectedTopics.add(e);
-                      }
+                      widget.blogStore.selectTopics(topic: e);
                       setState(() {});
                     },
                     child: Chip(
                       label: Text(e),
-                      color: selectedTopics.contains(e)
+                      color: widget.blogStore.selectedTopics.contains(e)
                           ? const MaterialStatePropertyAll(AppPallete.gradient1)
                           : null,
-                      side: selectedTopics.contains(e) ? null : const BorderSide(
-                        color: AppPallete.borderColor,
-                      ),
+                      side: widget.blogStore.selectedTopics.contains(e)
+                          ? null
+                          : const BorderSide(
+                              color: AppPallete.borderColor,
+                            ),
                     ),
                   ),
                 ))

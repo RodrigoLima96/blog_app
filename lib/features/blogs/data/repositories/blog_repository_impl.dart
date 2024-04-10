@@ -5,12 +5,11 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/core.dart';
 import '../../blogs.dart';
-import '../data.dart';
 
-class BlogRepository implements IBlogRepository {
+class BlogRepositoryImpl implements IBlogRepository {
   final IRemoteBlogDataSource remoteBlogDataSource;
 
-  BlogRepository({required this.remoteBlogDataSource});
+  BlogRepositoryImpl({required this.remoteBlogDataSource});
 
   @override
   Future<Either<Failure, BlogEntity>> uploadBlog({

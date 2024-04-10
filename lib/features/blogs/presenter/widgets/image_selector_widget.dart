@@ -1,13 +1,15 @@
-import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/core.dart';
+import '../../blogs.dart';
 
 class ImageSelectorWidget extends StatefulWidget {
+    final BlogStore blogStore;
+
   const ImageSelectorWidget({
     super.key,
+    required this.blogStore
   });
 
   @override
@@ -15,11 +17,10 @@ class ImageSelectorWidget extends StatefulWidget {
 }
 
 class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
-  File? image;
   void selectImage() async {
     final imagePicker = await pickImage();
     setState(() {
-      image = imagePicker;
+      widget.blogStore.image = imagePicker;
     });
   }
 
@@ -29,13 +30,13 @@ class _ImageSelectorWidgetState extends State<ImageSelectorWidget> {
       onTap: () {
         selectImage();
       },
-      child: image != null
+      child: widget.blogStore.image != null
           ? SizedBox(
               height: 150,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.file(image!, fit: BoxFit.cover),
+                child: Image.file(widget.blogStore.image!, fit: BoxFit.cover),
               ),
             )
           : DottedBorder(

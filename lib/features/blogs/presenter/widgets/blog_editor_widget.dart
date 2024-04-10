@@ -4,7 +4,8 @@ class BlogEditorWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
 
-  const BlogEditorWidget({super.key, required this.controller, required this.hintText});
+  const BlogEditorWidget(
+      {super.key, required this.controller, required this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,12 @@ class BlogEditorWidget extends StatelessWidget {
         hintText: hintText,
       ),
       maxLines: null,
+      validator: (value) {
+        if (value!.trim().isEmpty) {
+          return '$hintText is missing!';
+        }
+        return null;
+      },
     );
   }
 }

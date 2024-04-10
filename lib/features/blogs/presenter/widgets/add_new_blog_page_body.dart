@@ -1,41 +1,41 @@
 import 'package:flutter/material.dart';
 
+import '../../blogs.dart';
 import 'widgets.dart';
 
-class AddNewBlogPageBody extends StatefulWidget {
-  const AddNewBlogPageBody({super.key});
+class AddNewBlogPageBody extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+  final BlogStore blogStore;
+  final TextEditingController titleController;
+  final TextEditingController contentController;
 
-  @override
-  State<AddNewBlogPageBody> createState() => _AddNewBlogPageBodyState();
-}
-
-class _AddNewBlogPageBodyState extends State<AddNewBlogPageBody> {
-  final titleController = TextEditingController();
-  final contentController = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    titleController.dispose();
-    contentController.dispose();
-  }
+  const AddNewBlogPageBody({
+    super.key,
+    required this.formKey,
+    required this.blogStore,
+    required this.titleController,
+    required this.contentController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          children: [
-            const SizedBox(height: 15),
-            const ImageSelectorWidget(),
-            const SizedBox(height: 20),
-            const BlogTopicsWidget(),
-            const SizedBox(height: 20),
-            BlogEditorWidget(controller: titleController, hintText: 'Blog Title'),
-            const SizedBox(height: 10),
-            BlogEditorWidget(controller: contentController, hintText: 'Blog Content'),
-          ],
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              ImageSelectorWidget(blogStore: blogStore),
+              const SizedBox(height: 20),
+              BlogTopicsWidget(blogStore: blogStore),
+              const SizedBox(height: 20),
+              BlogEditorWidget(controller: titleController, hintText: 'Blog Title'),
+              const SizedBox(height: 10),
+              BlogEditorWidget(controller: contentController, hintText: 'Blog Content'),
+            ],
+          ),
         ),
       ),
     );

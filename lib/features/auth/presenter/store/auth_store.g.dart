@@ -44,6 +44,15 @@ mixin _$AuthStore on _AuthStoreBase, Store {
         .run(() => super.loginUser(email: email, password: password));
   }
 
+  late final _$checkCurrentUserLoggedInAsyncAction =
+      AsyncAction('_AuthStoreBase.checkCurrentUserLoggedIn', context: context);
+
+  @override
+  Future<void> checkCurrentUserLoggedIn() {
+    return _$checkCurrentUserLoggedInAsyncAction
+        .run(() => super.checkCurrentUserLoggedIn());
+  }
+
   late final _$_performAuthActionAsyncAction =
       AsyncAction('_AuthStoreBase._performAuthAction', context: context);
 
@@ -52,15 +61,6 @@ mixin _$AuthStore on _AuthStoreBase, Store {
       Future<Either<Failure, UserEntity>> Function() action) {
     return _$_performAuthActionAsyncAction
         .run(() => super._performAuthAction(action));
-  }
-
-  late final _$checkCurrentUserLoggedInAsyncAction =
-      AsyncAction('_AuthStoreBase.checkCurrentUserLoggedIn', context: context);
-
-  @override
-  Future<void> checkCurrentUserLoggedIn() {
-    return _$checkCurrentUserLoggedInAsyncAction
-        .run(() => super.checkCurrentUserLoggedIn());
   }
 
   @override
