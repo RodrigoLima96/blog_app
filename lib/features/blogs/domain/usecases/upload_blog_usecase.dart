@@ -17,6 +17,7 @@ class UploadBlogUsecase implements Usecase<BlogEntity, UploadBlogParams> {
       title: params.title,
       content: params.content,
       userId: params.userId,
+      username: params.username,
       topics: params.topics,
     );
   }
@@ -27,6 +28,7 @@ class UploadBlogParams {
   final String title;
   final String content;
   final String userId;
+  final String username;
   final List<String> topics;
 
   UploadBlogParams({
@@ -34,6 +36,7 @@ class UploadBlogParams {
     required this.title,
     required this.content,
     required this.userId,
+    required this.username,
     required this.topics,
   });
 }

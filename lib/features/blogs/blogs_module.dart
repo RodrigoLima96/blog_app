@@ -10,6 +10,7 @@ class BlogsModule extends Module {
   void binds(i) {
     // usecases
     i.add(() => UploadBlogUsecase(blogRepository: i()));
+    i.add(() => GetAllBlogsUsecase(blogRepository: i()));
 
     // repositories
     i.addLazySingleton<IBlogRepository>(() => BlogRepositoryImpl(remoteBlogDataSource: i()));
@@ -22,7 +23,7 @@ class BlogsModule extends Module {
     i.addLazySingleton(() => FirebaseFirestore.instance);
 
     // store
-    i.addLazySingleton(() => BlogStore(uploadBlogUsecase: i(),appUserStore: i()));
+    i.addLazySingleton(() => BlogStore(uploadBlogUsecase: i(),appUserStore: i(), getAllBlogsUsecase: i()));
 
   }
 

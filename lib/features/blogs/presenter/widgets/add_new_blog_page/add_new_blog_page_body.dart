@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../blogs.dart';
-import 'widgets.dart';
+import '../../../blogs.dart';
+import '../widgets.dart';
 
 class AddNewBlogPageBody extends StatelessWidget {
   final GlobalKey<FormState> formKey;

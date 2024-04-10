@@ -1,8 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/core.dart';
-import '../../blogs.dart';
+import '../../../../../core/core.dart';
+import '../../../blogs.dart';
 
 class ImageSelectorWidget extends StatefulWidget {
     final BlogStore blogStore;

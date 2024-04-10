@@ -4,6 +4,7 @@ class BlogModel extends BlogEntity {
   BlogModel({
     required super.id,
     required super.userId,
+    required super.username,
     required super.title,
     required super.content,
     required super.imageUrl,
@@ -15,6 +16,7 @@ class BlogModel extends BlogEntity {
     return <String, dynamic>{
       'blog_id': id,
       'user_id': userId,
+      'user_name': username,
       'title': title,
       'content': content,
       'image_url': imageUrl,
@@ -27,11 +29,14 @@ class BlogModel extends BlogEntity {
     return BlogModel(
       id: map['blog_id'] as String,
       userId: map['user_id'] as String,
+      username: map['user_name'] as String,
       title: map['title'] as String,
       content: map['content'] as String,
       imageUrl: map['image_url'] as String,
-      topics: List<String>.from((map['topics'] as List<String>)),
-      updatedAt: map['updated_at'] == null ? DateTime.now() : DateTime.parse(map['updated_at']),
+      topics: List<String>.from(map['topics']),
+      updatedAt: map['updated_at'] == null
+          ? DateTime.now()
+          : DateTime.parse(map['updated_at']),
     );
   }
 }

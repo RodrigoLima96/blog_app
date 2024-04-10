@@ -33,7 +33,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => Scaffold(
-        appBar: blogStore.uploadBlogState == UploadBlogState.loading
+        appBar: blogStore.uploadBlogState == BlogStoreState.loading
             ? null
             : AppBar(
                 actions: [
@@ -43,7 +43,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                   )
                 ],
               ),
-        body: blogStore.uploadBlogState == UploadBlogState.loading
+        body: blogStore.uploadBlogState == BlogStoreState.loading
             ? const LoaderWidget()
             : AddNewBlogPageBody(
                 formKey: formKey,
@@ -66,10 +66,10 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
         content: contentController.text,
       );
 
-      if (blogStore.uploadBlogState == UploadBlogState.success) {
+      if (blogStore.uploadBlogState == BlogStoreState.success) {
         Modular.to.pop();
         showCustomSnackbar(context, 'Blog Created Successfully');
-      } else if (blogStore.uploadBlogState == UploadBlogState.failure) {
+      } else if (blogStore.uploadBlogState == BlogStoreState.failure) {
         showCustomSnackbar(context, blogStore.uploadBlogFailureMessage);
       }
     }

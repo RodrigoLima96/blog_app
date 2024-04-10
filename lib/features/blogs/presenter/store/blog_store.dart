@@ -11,55 +11,82 @@ part 'blog_store.g.dart';
 
 class BlogStore = _BlogStoreBase with _$BlogStore;
 
-enum UploadBlogState { notStarted, loading, failure, success }
+enum BlogStoreState { notStarted, loading, failure, success }
 
 abstract class _BlogStoreBase with Store {
-  final UploadBlogUsecase uploadBlogUsecase;
-  final AppUserStore appUserStore;
+  final UploadBlogUsecase _uploadBlogUsecase;
+  final GetAllBlogsUsecase _getAllBlogsUsecase;
+  final AppUserStore _appUserStore;
 
   @observable
-  UploadBlogState uploadBlogState = UploadBlogState.notStarted;
+  BlogStoreState uploadBlogState = BlogStoreState.notStarted;
+  @observable
+  BlogStoreState getAllBlogsState = BlogStoreState.notStarted;
 
   @observable
   File? image;
 
   @observable
+  List<BlogEntity> blogList = [];
+
+  @observable
   List<String> selectedTopics = [];
 
   String uploadBlogFailureMessage = '';
+  String getAllBlogsFailureMessage = '';
 
   _BlogStoreBase({
-    required this.uploadBlogUsecase,
-    required this.appUserStore,
-  });
+    required UploadBlogUsecase uploadBlogUsecase,
+    required AppUserStore appUserStore,
+    required GetAllBlogsUsecase getAllBlogsUsecase,
+  })  : _appUserStore = appUserStore,
+        _getAllBlogsUsecase = getAllBlogsUsecase,
+        _uploadBlogUsecase = uploadBlogUsecase;
+
+  @action
+  Future<void> getAllBlogs() async {
+    getAllBlogsState = BlogStoreState.loading;
+    final result = await _getAllBlogsUsecase(NoParams());
+    result.fold(
+      (failure) {
+        getAllBlogsState = BlogStoreState.failure;
+        getAllBlogsFailureMessage = failure.message;
+      },
+      (list) {
+        blogList = List.from(list);
+        getAllBlogsState = BlogStoreState.success;
+      },
+    );
+  }
 
   @action
   Future<void> uploadBlog({
     required String title,
     required String content,
   }) async {
-    uploadBlogState = UploadBlogState.loading;
+    uploadBlogState = BlogStoreState.loading;
     List<int> bytes = await image!.readAsBytes();
     Uint8List convertedImage = Uint8List.fromList(bytes);
 
-    final result = await uploadBlogUsecase(UploadBlogParams(
+    final result = await _uploadBlogUsecase(UploadBlogParams(
       image: convertedImage,
       title: title,
       content: content,
-      userId: appUserStore.user!.id,
+      userId: _appUserStore.user!.id,
+      username: _appUserStore.user!.name,
       topics: selectedTopics,
     ));
 
     result.fold(
       (failure) {
         uploadBlogFailureMessage = failure.message;
-        uploadBlogState = UploadBlogState.failure;
+        uploadBlogState = BlogStoreState.failure;
       },
       (blog) {
         // print(blog);
         image = null;
         selectedTopics = [];
-        uploadBlogState = UploadBlogState.success;
+        uploadBlogState = BlogStoreState.success;
       },
     );
   }

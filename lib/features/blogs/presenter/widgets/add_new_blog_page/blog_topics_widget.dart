@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/core.dart';
-import '../../blogs.dart';
+import '../../../../../core/core.dart';
+import '../../../blogs.dart';
 
 class BlogTopicsWidget extends StatefulWidget {
   final BlogStore blogStore;

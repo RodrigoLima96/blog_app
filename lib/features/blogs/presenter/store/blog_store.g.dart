@@ -13,13 +13,13 @@ mixin _$BlogStore on _BlogStoreBase, Store {
       Atom(name: '_BlogStoreBase.uploadBlogState', context: context);
 
   @override
-  UploadBlogState get uploadBlogState {
+  BlogStoreState get uploadBlogState {
     _$uploadBlogStateAtom.reportRead();
     return super.uploadBlogState;
   }
 
   @override
-  set uploadBlogState(UploadBlogState value) {
+  set uploadBlogState(BlogStoreState value) {
     _$uploadBlogStateAtom.reportWrite(value, super.uploadBlogState, () {
       super.uploadBlogState = value;
     });
@@ -40,6 +40,22 @@ mixin _$BlogStore on _BlogStoreBase, Store {
     });
   }
 
+  late final _$blogListAtom =
+      Atom(name: '_BlogStoreBase.blogList', context: context);
+
+  @override
+  List<BlogEntity> get blogList {
+    _$blogListAtom.reportRead();
+    return super.blogList;
+  }
+
+  @override
+  set blogList(List<BlogEntity> value) {
+    _$blogListAtom.reportWrite(value, super.blogList, () {
+      super.blogList = value;
+    });
+  }
+
   late final _$selectedTopicsAtom =
       Atom(name: '_BlogStoreBase.selectedTopics', context: context);
 
@@ -54,6 +70,14 @@ mixin _$BlogStore on _BlogStoreBase, Store {
     _$selectedTopicsAtom.reportWrite(value, super.selectedTopics, () {
       super.selectedTopics = value;
     });
+  }
+
+  late final _$getAllBlogsAsyncAction =
+      AsyncAction('_BlogStoreBase.getAllBlogs', context: context);
+
+  @override
+  Future<void> getAllBlogs() {
+    return _$getAllBlogsAsyncAction.run(() => super.getAllBlogs());
   }
 
   late final _$uploadBlogAsyncAction =
@@ -84,6 +108,7 @@ mixin _$BlogStore on _BlogStoreBase, Store {
     return '''
 uploadBlogState: ${uploadBlogState},
 image: ${image},
+blogList: ${blogList},
 selectedTopics: ${selectedTopics}
     ''';
   }
