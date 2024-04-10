@@ -48,8 +48,6 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
         throw ServerException(message: 'User is null!');
       }
       await response.user!.updateDisplayName(name);
-      await createUserOnDatabase(
-          uid: response.user!.uid, name: name, email: email);
 
       UserModel userModel =
           UserModel.fromData(id: response.user!.uid, name: name, email: email);
@@ -59,23 +57,6 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
       throw ServerException(message: e.toString());
     }
   }
-
-  Future<void> createUserOnDatabase({
-    required String uid,
-    required String name,
-    required String email,
-  }) async {
-    try {
-      await firestore.collection('users').doc(uid).set({
-        "id": uid,
-        "name": name,
-        "email": email,
-      });
-    } catch (e) {
-      throw ServerException(message: e.toString());
-    }
-  }
-
   @override
   Future<UserModel?> getCurrentUserData() async {
     try {
@@ -88,6 +69,23 @@ class AuthRemoteDataSourceImpl implements IAuthRemoteDataSource {
         return userModel;
       }
       return null;
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<void> createUserOnDatabase({
+    required String id,
+    required String name,
+    required String email,
+  }) async {
+    try {
+      await firestore.collection('users').doc(id).set({
+        "id": id,
+        "name": name,
+        "email": email,
+      });
     } catch (e) {
       throw ServerException(message: e.toString());
     }

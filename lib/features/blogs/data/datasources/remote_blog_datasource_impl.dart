@@ -38,4 +38,15 @@ class RemoteBlogDataSourceImpl implements IRemoteBlogDataSource {
       throw ServerException(message: e.toString());
     }
   }
+
+  @override
+  Future<List<BlogModel>> getAllBlogs() async {
+    try {
+      final result = await firestore.collection('blogs').get();
+      print(result.docs);
+      return [];
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
 }

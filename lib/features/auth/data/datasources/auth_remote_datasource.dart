@@ -12,5 +12,11 @@ abstract interface class IAuthRemoteDataSource {
     required String password,
   });
 
+  Future<void> createUserOnDatabase({
+    required String id,
+    required String name,
+    required String email,
+  });
+
   Future<UserModel?> getCurrentUserData();
 }

@@ -28,13 +28,21 @@ class AuthRepositoryImpl implements IAuthRepository {
     required String email,
     required String password,
   }) async {
-    return _getUser(
+    final user = await _getUser(
       () async => await remoteDataSource.signUpWithEmailAndPassword(
         name: name,
         email: email,
         password: password,
       ),
     );
+    user.fold(
+      (failure) {},
+      (user) async {
+        await remoteDataSource.createUserOnDatabase(id: user.id, email: user.email, name: user.name);
+      },
+    );
+
+    return user;
   }
 
   Future<Either<Failure, UserEntity>> _getUser(
