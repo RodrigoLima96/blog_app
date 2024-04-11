@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'blogs.dart';
@@ -12,16 +10,15 @@ class BlogsModule extends Module {
     i.add(() => GetAllBlogsUsecase(blogRepository: i()));
 
     // repositories
-    i.addLazySingleton<IBlogRepository>(
-        () => BlogRepositoryImpl(remoteBlogDataSource: i()));
+    i.addLazySingleton<IBlogRepository>(() => BlogRepositoryImpl(
+          remoteBlogDataSource: i(),
+          localBlogDatasource: i(),
+          connectionChecker: i(),
+        ));
 
     // datasources
-    i.addLazySingleton<IRemoteBlogDataSource>(
-        () => RemoteBlogDataSourceImpl(firestore: i(), storage: i()));
-
-    // firebase
-    i.addLazySingleton(() => FirebaseStorage.instance);
-    i.addLazySingleton(() => FirebaseFirestore.instance);
+    i.addLazySingleton<IRemoteBlogDataSource>(() => RemoteBlogDataSourceImpl(firestore: i(), storage: i()));
+    i.addLazySingleton<ILocalBlogDataSource>(() => LocalBlogDataSourceImpl(box: i()));
 
     // store
     i.addLazySingleton(() => BlogStore(uploadBlogUsecase: i(), appUserStore: i(), getAllBlogsUsecase: i()));

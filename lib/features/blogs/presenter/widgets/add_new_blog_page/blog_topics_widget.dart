@@ -21,7 +21,7 @@ class _BlogTopicsWidgetState extends State<BlogTopicsWidget> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: ['Technology', 'Business', 'Programing', 'Entertainment']
+        children: Constants.topics
             .map((e) => Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: GestureDetector(

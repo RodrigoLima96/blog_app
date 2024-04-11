@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -22,7 +21,6 @@ class AuthModule extends Module {
 
     // firebase
     i.addLazySingleton(() => FirebaseAuth.instanceFor(app: Firebase.app()));
-    i.addLazySingleton(() => FirebaseFirestore.instance);
 
     // store
     i.addLazySingleton(() => AuthStore(signUpUserUsecase: i(), loginUserUsecase: i(), appUserStore: i(), currentUserUsecase: i()));

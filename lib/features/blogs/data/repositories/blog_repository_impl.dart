@@ -8,8 +8,14 @@ import '../../blogs.dart';
 
 class BlogRepositoryImpl implements IBlogRepository {
   final IRemoteBlogDataSource remoteBlogDataSource;
+  final ILocalBlogDataSource localBlogDatasource;
+  final IConnectionChecker connectionChecker;
 
-  BlogRepositoryImpl({required this.remoteBlogDataSource});
+  BlogRepositoryImpl({
+    required this.remoteBlogDataSource,
+    required this.localBlogDatasource,
+    required this.connectionChecker,
+  });
 
   @override
   Future<Either<Failure, BlogEntity>> uploadBlog({
@@ -48,7 +54,12 @@ class BlogRepositoryImpl implements IBlogRepository {
   @override
   Future<Either<Failure, List<BlogEntity>>> getAllBlogs() async {
     try {
+      if (!await (connectionChecker.isConnected)) {
+        final blogs = localBlogDatasource.loadLocalBlogs();
+        return right(blogs);
+      }
       final blogs = await remoteBlogDataSource.getAllBlogs();
+      localBlogDatasource.uploadLocalBlogs(blogs: blogs);
       return right(blogs);
     } on ServerException catch (e) {
       return left(Failure(e.message));
